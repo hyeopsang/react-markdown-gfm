@@ -11,7 +11,7 @@ export function IssueEditor() {
   const [markdown, setMarkdown] = useState('');
 
   return (
-    <div className="flex flex-col gap-4 p-4 md:flex-row">
+    <div className="mx-auto flex w-full flex-col gap-4 p-4 md:flex-row">
       <textarea
         className="h-96 w-full border p-3 font-mono text-sm md:w-1/2"
         value={markdown}

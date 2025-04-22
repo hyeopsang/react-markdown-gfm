@@ -1,10 +1,13 @@
 import '@/App.css';
 
-import { IssueEditor } from './issue-editor/IssueEditor';
+import { Link } from 'react-router';
+
 export function App() {
   return (
-    <>
-      <IssueEditor />
-    </>
+    <div className="h-full w-full">
+      <Link className="text-5xl text-black" to={'/issue-form'}>
+        이슈 작성하기
+      </Link>
+    </div>
   );
 }
