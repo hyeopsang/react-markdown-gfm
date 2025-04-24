@@ -1,4 +1,3 @@
-import { Clock, User } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypePrism from 'rehype-prism-plus';
@@ -6,17 +5,19 @@ import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/shared/components/ui/accordion';
+import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@/shared/components/ui/avatar';
 import { Badge } from '@/shared/components/ui/badge';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from '@/shared/components/ui/card';
+import { Card, CardFooter } from '@/shared/components/ui/card';
+import { Checkbox } from '@/shared/components/ui/checkbox';
 
 interface GitHubIssue {
   id: number;
@@ -45,20 +46,40 @@ interface GitHubIssue {
 
 export function IssueCard({ issue }: { issue: GitHubIssue }) {
   return (
-    <Card>
-      <CardHeader className="p-3 pb-0">
-        <div className="flex flex-col items-center justify-center">
-          <span className="text-muted-foreground text-sm">{issue.number}</span>
-          <h2 className="font-semibold">{issue.title}</h2>
-        </div>
-      </CardHeader>
-      <CardContent className="p-3">
-        <ReactMarkdown
-          children={issue.body}
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeSlug, rehypeAutolinkHeadings, rehypePrism]}
-        />
-        <div className="mt-2 flex flex-wrap gap-1">
+    <Card className="rounded-none border-none px-4 py-0 shadow-none">
+      <Accordion type="single" collapsible>
+        <AccordionItem value="item-1">
+          <AccordionTrigger className="flex gap-3">
+            <div>
+              <div className="justify-left flex items-center gap-2">
+                <Checkbox className="h-5 w-5 rounded-full data-[state=checked]:border-none data-[state=checked]:bg-[#0065FF] data-[state=unchecked]:bg-[#C3C3C3]" />
+                <h2 className="text-base font-bold font-semibold">
+                  {issue.title}
+                </h2>
+              </div>
+              <p className="pt-3 text-left text-xs font-normal text-[#939393]">
+                {issue.created_at}
+              </p>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent>
+            <ReactMarkdown
+              children={issue.body}
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeSlug, rehypeAutolinkHeadings, rehypePrism]}
+            />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+      <CardFooter className="flex flex-wrap gap-2.5 p-0.5 pb-6">
+        <Avatar className="h-5 w-5">
+          <AvatarImage
+            src={issue.assignee.avatar_url}
+            alt={issue.assignee.login}
+          />
+          <AvatarFallback>{issue.assignee.login}</AvatarFallback>
+        </Avatar>
+        <div className="mt-2 flex w-full flex-wrap gap-1">
           {issue.labels.map((label, i) => (
             <Badge
               key={i}
@@ -70,27 +91,6 @@ export function IssueCard({ issue }: { issue: GitHubIssue }) {
             </Badge>
           ))}
         </div>
-      </CardContent>
-      <CardFooter className="flex items-center justify-between p-3 pt-0">
-        <div className="text-muted-foreground flex items-center gap-1 text-xs">
-          <Clock className="h-3.5 w-3.5" />
-          {issue.created_at}
-        </div>
-        {issue.assignee ? (
-          <Avatar className="h-6 w-6">
-            <AvatarImage
-              src={issue.assignee.avatar_url}
-              alt={issue.assignee.login}
-            />
-            <AvatarFallback>{issue.assignee.login}</AvatarFallback>
-          </Avatar>
-        ) : (
-          <Avatar className="h-6 w-6">
-            <AvatarFallback>
-              <User className="h-3.5 w-3.5" />
-            </AvatarFallback>
-          </Avatar>
-        )}
       </CardFooter>
     </Card>
   );

@@ -1,5 +1,5 @@
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
-import { Bug, User } from 'lucide-react';
+import { Plus, User } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 
 import { getIssue } from '@/api/fetchIssue';
@@ -11,14 +11,6 @@ import {
 } from '@/shared/components/ui/avatar';
 import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
-import { Input } from '@/shared/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/components/ui/select';
 import {
   Tabs,
   TabsContent,
@@ -161,47 +153,6 @@ export function IssueList() {
   };
   return (
     <div className="space-y-4">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div className="flex w-full items-center space-x-2 md:w-auto">
-          <Input
-            placeholder="Search issues..."
-            className="w-full md:w-[300px]"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <Button variant="outline" onClick={() => setCreateIssue(true)}>
-            <Bug className="mr-2 h-4 w-4" />
-            New Issue
-          </Button>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Select defaultValue="all">
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by assignee" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All assignees</SelectItem>
-              <SelectItem value="sarah">Sarah Chen</SelectItem>
-              <SelectItem value="mike">Mike Johnson</SelectItem>
-              <SelectItem value="alex">Alex Wong</SelectItem>
-              <SelectItem value="unassigned">Unassigned</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select defaultValue="all">
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by label" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All labels</SelectItem>
-              <SelectItem value="bug">Bug</SelectItem>
-              <SelectItem value="enhancement">Enhancement</SelectItem>
-              <SelectItem value="documentation">Documentation</SelectItem>
-              <SelectItem value="testing">Testing</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-
       <Tabs defaultValue="kanban" className="w-full">
         <TabsList className="mb-4">
           <TabsTrigger value="kanban">Kanban Board</TabsTrigger>
@@ -211,17 +162,28 @@ export function IssueList() {
           <DragDropContext onDragEnd={handleDragEnd}>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {/* To Do Column */}
-              <div className="space-y-4">
+              <div className="space-y-1.5 bg-[#FFFBDE] px-4.5 py-1.5">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-medium">To Do</h3>
-                  <Badge variant="outline">{filteredIssues.todo.length}</Badge>
+                  <div className="flex items-center gap-1 py-3.5 pl-2 text-sm font-bold">
+                    <h3>TO DO</h3>
+                    <p className="text-[#F9AA01]">
+                      {filteredIssues.todo.length}
+                    </p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    className="h-7.5 w-7.5 border-none shadow-none"
+                    onClick={() => setCreateIssue(true)}
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                  </Button>
                 </div>
                 <Droppable droppableId="todo">
                   {(provided) => (
                     <div
                       {...provided.droppableProps}
                       ref={provided.innerRef}
-                      className="bg-muted/40 min-h-[500px] rounded-lg border p-4"
+                      className="bg-muted/40 min-h-[500px]"
                     >
                       {filteredIssues.todo.map((issue, index) => (
                         <Draggable
@@ -247,20 +209,29 @@ export function IssueList() {
                 </Droppable>
               </div>
 
-              {/* In Progress Column */}
-              <div className="space-y-4">
+              {/* DONING Column */}
+              <div className="space-y-1.5 bg-[#E7F3FE] px-4.5 py-1.5">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-medium">In Progress</h3>
-                  <Badge variant="outline">
-                    {filteredIssues.inProgress.length}
-                  </Badge>
+                  <div className="flex items-center gap-1 py-3.5 pl-2 text-sm font-bold">
+                    <h3>DOING</h3>
+                    <div className="text-[#1E85E4]">
+                      {filteredIssues.inProgress.length}
+                    </div>
+                  </div>
+                  <Button
+                    variant="outline"
+                    className="h-7.5 w-7.5 border-none shadow-none"
+                    onClick={() => setCreateIssue(true)}
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                  </Button>
                 </div>
                 <Droppable droppableId="inProgress">
                   {(provided) => (
                     <div
                       {...provided.droppableProps}
                       ref={provided.innerRef}
-                      className="bg-muted/40 min-h-[500px] rounded-lg border p-4"
+                      className="bg-muted/40 min-h-[500px]"
                     >
                       {filteredIssues.inProgress.map((issue, index) => (
                         <Draggable
@@ -287,17 +258,28 @@ export function IssueList() {
               </div>
 
               {/* Done Column */}
-              <div className="space-y-4">
+              <div className="space-y-1.5 bg-[#EEFBE6] px-4.5 py-1.5">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-medium">Done</h3>
-                  <Badge variant="outline">{filteredIssues.done.length}</Badge>
+                  <div className="flex items-center gap-1 py-3.5 pl-2 text-sm font-bold">
+                    <h3>DONE</h3>
+                    <div className="text-[#58BE1A]">
+                      {filteredIssues.done.length}
+                    </div>
+                  </div>
+                  <Button
+                    variant="outline"
+                    className="h-7.5 w-7.5 border-none shadow-none"
+                    onClick={() => setCreateIssue(true)}
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                  </Button>
                 </div>
                 <Droppable droppableId="done">
                   {(provided) => (
                     <div
                       {...provided.droppableProps}
                       ref={provided.innerRef}
-                      className="bg-muted/40 min-h-[500px] rounded-lg border p-4"
+                      className="bg-muted/40 min-h-[500px]"
                     >
                       {filteredIssues.done.map((issue, index) => (
                         <Draggable
