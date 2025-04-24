@@ -17,6 +17,8 @@ export const getIssue = () => {
 interface IssueContent {
   title: string;
   body: string;
+  assignees: string[];
+  labels: string[];
 }
 export const createIssue = (issuesContent: IssueContent) => {
   return octokit.request('POST /repos/hyeopsang/react-markdown-gfm/issues', {
@@ -29,5 +31,17 @@ export const createIssue = (issuesContent: IssueContent) => {
     headers: {
       'X-GitHub-Api-Version': '2022-11-28',
     },
+  });
+};
+export const getAssignees = () => {
+  return octokit.request('GET /repos/{owner}/{repo}/assignees', {
+    owner: 'hyeopsang',
+    repo: 'react-markdown-gfm',
+  });
+};
+export const getLabels = () => {
+  return octokit.request('GET /repos/{owner}/{repo}/labels', {
+    owner: 'hyeopsang',
+    repo: 'react-markdown-gfm',
   });
 };

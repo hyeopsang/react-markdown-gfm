@@ -17,7 +17,6 @@ import {
 } from '@/shared/components/ui/avatar';
 import { Badge } from '@/shared/components/ui/badge';
 import { Card, CardFooter } from '@/shared/components/ui/card';
-import { Checkbox } from '@/shared/components/ui/checkbox';
 
 interface GitHubIssue {
   id: number;
@@ -52,7 +51,6 @@ export function IssueCard({ issue }: { issue: GitHubIssue }) {
           <AccordionTrigger className="flex gap-3">
             <div>
               <div className="justify-left flex items-center gap-2">
-                <Checkbox className="h-5 w-5 rounded-full data-[state=checked]:border-none data-[state=checked]:bg-[#0065FF] data-[state=unchecked]:bg-[#C3C3C3]" />
                 <h2 className="text-base font-bold font-semibold">
                   {issue.title}
                 </h2>
@@ -72,13 +70,17 @@ export function IssueCard({ issue }: { issue: GitHubIssue }) {
         </AccordionItem>
       </Accordion>
       <CardFooter className="flex flex-wrap gap-2.5 p-0.5 pb-6">
-        <Avatar className="h-5 w-5">
-          <AvatarImage
-            src={issue.assignee.avatar_url}
-            alt={issue.assignee.login}
-          />
-          <AvatarFallback>{issue.assignee.login}</AvatarFallback>
-        </Avatar>
+        <div className="flex w-full items-center justify-between">
+          <Avatar className="h-5 w-5">
+            <AvatarImage
+              src={issue.assignee.avatar_url}
+              alt={issue.assignee.login}
+            />
+            <AvatarFallback>{issue.assignee.login}</AvatarFallback>
+          </Avatar>
+          <img src="/github.png" className="h-5 w-5" />
+        </div>
+
         <div className="mt-2 flex w-full flex-wrap gap-1">
           {issue.labels.map((label, i) => (
             <Badge

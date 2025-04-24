@@ -53,7 +53,7 @@ interface KanbanBoard {
   todo: GitHubIssue[];
   inProgress: GitHubIssue[];
   done: GitHubIssue[];
-  [key: string]: GitHubIssue[]; // 인덱스 시그니처 추가
+  [key: string]: GitHubIssue[];
 }
 
 export function IssueList() {
@@ -64,19 +64,15 @@ export function IssueList() {
     done: [],
   });
   const [searchQuery, setSearchQuery] = useState<string>('');
-
+  const [fixPin, setFixPin] = useState(false);
   const fetchIssues = useCallback(async () => {
     try {
       const response = await getIssue();
-      // API 응답을 칸반 보드 형식으로 변환하는 로직이 필요할 수 있습니다
-      // 예시: 이슈의 라벨이나 상태에 따라 분류
       const todoIssues: GitHubIssue[] = [];
       const inProgressIssues: GitHubIssue[] = [];
       const doneIssues: GitHubIssue[] = [];
       console.log(response.data);
       response.data.forEach((issue: GitHubIssue) => {
-        // 여기서 이슈를 분류하는 로직을 구현하세요
-        // 예: 라벨에 따라 분류
         if (issue.state === 'closed') {
           doneIssues.push(issue);
         } else if (issue.labels.some((label) => label.name === 'in-progress')) {
@@ -161,7 +157,6 @@ export function IssueList() {
         <TabsContent value="kanban" className="mt-0">
           <DragDropContext onDragEnd={handleDragEnd}>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-              {/* To Do Column */}
               <div className="space-y-1.5 bg-[#FFFBDE] px-4.5 py-1.5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1 py-3.5 pl-2 text-sm font-bold">
@@ -208,8 +203,6 @@ export function IssueList() {
                   )}
                 </Droppable>
               </div>
-
-              {/* DONING Column */}
               <div className="space-y-1.5 bg-[#E7F3FE] px-4.5 py-1.5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1 py-3.5 pl-2 text-sm font-bold">
@@ -256,8 +249,6 @@ export function IssueList() {
                   )}
                 </Droppable>
               </div>
-
-              {/* Done Column */}
               <div className="space-y-1.5 bg-[#EEFBE6] px-4.5 py-1.5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1 py-3.5 pl-2 text-sm font-bold">
