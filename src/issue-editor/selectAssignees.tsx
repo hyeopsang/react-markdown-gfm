@@ -58,7 +58,7 @@ export const SelectAssignees = ({ onChange }: SelectAssigneesProps) => {
     <div className="w-[200px] space-y-2">
       <Select>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="담당자 선택" />
+          <SelectValue placeholder="Assignee" />
         </SelectTrigger>
         <SelectContent>
           {assignees.map(({ login, avatar_url }) => (
@@ -78,7 +78,7 @@ export const SelectAssignees = ({ onChange }: SelectAssigneesProps) => {
           ))}
         </SelectContent>
       </Select>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex gap-2">
         {selected.map((login) => (
           <Badge
             key={login}

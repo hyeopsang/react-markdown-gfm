@@ -74,7 +74,7 @@ export const SelectLabels = ({ onChange }: SelectLabelsProps) => {
           ))}
         </SelectContent>
       </Select>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex gap-2">
         {selected.map((label) => (
           <Badge
             key={label}
