@@ -25,7 +25,6 @@ export const createIssue = (issuesContent: IssueContent) => {
     title: issuesContent.title,
     body: issuesContent.body,
     assignees: ['hyeopsang'],
-    milestone: 1,
     labels: ['bug'],
     headers: {
       'X-GitHub-Api-Version': '2022-11-28',

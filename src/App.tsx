@@ -2,8 +2,7 @@ import '@/App.css';
 
 import { Link } from 'react-router';
 
-import IssueList from './issue-list/IssueList';
-
+import { IssueList } from './issue-list/IssueList';
 export function App() {
   return (
     <div className="h-full w-full">

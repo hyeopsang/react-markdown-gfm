@@ -1,6 +1,7 @@
 import 'github-markdown-css/github-markdown-light.css';
 
 import { useCallback, useState } from 'react';
+import { createPortal } from 'react-dom';
 import ReactMarkdown from 'react-markdown';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypePrism from 'rehype-prism-plus';
@@ -12,7 +13,11 @@ interface IssueContent {
   title: string;
   body: string;
 }
-export function IssueEditor() {
+
+interface IssueEditorProps {
+  onClose: () => void;
+}
+export function IssueEditor({ onClose }: IssueEditorProps) {
   const [issue, setIssue] = useState<IssueContent>({
     title: '',
     body: '',
@@ -22,8 +27,8 @@ export function IssueEditor() {
     console.log('이슈 생성', responser);
   }, []);
 
-  return (
-    <div className="flex w-full flex-col p-4">
+  return createPortal(
+    <div className="fixed flex w-[50%] flex-col rounded-2xl bg-white p-4 shadow-xl">
       <div className="mb-4 flex w-full flex-col gap-4 md:flex-row">
         <div className="flex w-full flex-col overflow-auto bg-white p-4 md:w-1/2">
           <input
@@ -57,6 +62,7 @@ export function IssueEditor() {
           이슈 생성
         </button>
       </div>
-    </div>
+    </div>,
+    document.getElementById('modal-root')!
   );
 }

@@ -4,7 +4,9 @@
   padding: 2rem;
   text-align: center;
 }
-
+#modal-root {
+  max-width: 1280px;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
