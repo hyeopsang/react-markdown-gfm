@@ -32,9 +32,10 @@ export function IssueEditor({ onClose }: IssueEditorProps) {
   });
   const IssueCreate = useCallback(async (issue: IssueContent) => {
     const responser = await createIssue(issue);
+    onClose();
     console.log('이슈 생성', responser);
   }, []);
-
+  console.log(issue);
   return createPortal(
     <div className="pointer-events-auto flex w-[1000px] flex-col gap-3 rounded-xs bg-white p-4 shadow-xl">
       <X onClick={onClose} className="ml-auto" />
@@ -66,6 +67,7 @@ export function IssueEditor({ onClose }: IssueEditorProps) {
         <SelectLabels
           onChange={(labels) => setIssue((prev) => ({ ...prev, labels }))}
         />
+
         <SelectAssignees
           onChange={(assignees) => setIssue((prev) => ({ ...prev, assignees }))}
         />

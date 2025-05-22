@@ -36,14 +36,27 @@ interface GitHubIssue {
     name: string;
     color: string;
   }>;
-  assignee: { login: string; avatar_url: string };
+  assignee: {
+    login: string;
+    avatar_url: string;
+  };
   assignees: Array<{
     login: string;
     avatar_url: string;
   }>;
 }
+interface TodoList {
+  id: number;
+  title: string;
+  body: string;
+  assignee?: string[];
+  labels?: string[];
+  created_at: string;
+  updated_at: string;
+}
+type KanbanItem = GitHubIssue | TodoList;
 
-export function IssueCard({ issue }: { issue: GitHubIssue }) {
+export function IssueCard({ issue }: { issue: KanbanItem }) {
   return (
     <Card className="rounded-none border-none px-4 py-0 shadow-none">
       <Accordion type="single" collapsible>
@@ -73,8 +86,8 @@ export function IssueCard({ issue }: { issue: GitHubIssue }) {
         <div className="flex w-full items-center justify-between">
           <Avatar className="h-5 w-5">
             <AvatarImage
-              src={issue.assignee.avatar_url}
-              alt={issue.assignee.login}
+              src={issue.assignee?.avatar_url}
+              alt={issue.assignee?.login}
             />
             <AvatarFallback>{issue.assignee.login}</AvatarFallback>
           </Avatar>

@@ -47,13 +47,23 @@ interface GitHubIssue {
     avatar_url: string;
   }>;
 }
+interface TodoList {
+  id: number;
+  title: string;
+  body: string;
+  assignee?: string[];
+  labels?: string[];
+  created_at: string;
+  updated_at: string;
+}
+type KanbanItem = GitHubIssue | TodoList;
 
 // 칸반 보드 상태 타입 정의
 interface KanbanBoard {
-  todo: GitHubIssue[];
-  inProgress: GitHubIssue[];
-  done: GitHubIssue[];
-  [key: string]: GitHubIssue[];
+  todo: KanbanItem[];
+  inProgress: KanbanItem[];
+  done: KanbanItem[];
+  [key: string]: KanbanItem[];
 }
 
 export function IssueList() {
@@ -68,9 +78,9 @@ export function IssueList() {
   const fetchIssues = useCallback(async () => {
     try {
       const response = await getIssue();
-      const todoIssues: GitHubIssue[] = [];
-      const inProgressIssues: GitHubIssue[] = [];
-      const doneIssues: GitHubIssue[] = [];
+      const todoIssues: KanbanItem[] = [];
+      const inProgressIssues: KanbanItem[] = [];
+      const doneIssues: KanbanItem[] = [];
       console.log(response.data);
       response.data.forEach((issue: GitHubIssue) => {
         if (issue.state === 'closed') {

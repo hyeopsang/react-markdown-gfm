@@ -26,8 +26,8 @@ export const createIssue = (issuesContent: IssueContent) => {
     repo: 'react-markdown-gfm',
     title: issuesContent.title,
     body: issuesContent.body,
-    assignees: ['hyeopsang'],
-    labels: ['bug'],
+    assignees: issuesContent.assignees,
+    labels: issuesContent.labels,
     headers: {
       'X-GitHub-Api-Version': '2022-11-28',
     },
